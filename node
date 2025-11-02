@@ -1,0 +1,43 @@
+polyrift-ng/
+├─ .github/
+│  └─ workflows/
+│     └─ ci.yml
+├─ docs/
+│  └─ architecture.md
+├─ infra/
+│  ├─ terraform/
+│  │  └─ main.tf
+│  └─ k8s/
+│     └─ polyrift-chart/
+├─ smart-contracts/
+│  └─ anchor-program/
+│     ├─ Cargo.toml
+│     └─ src/lib.rs
+├─ services/
+│  ├─ gateway/
+│  │  ├─ package.json
+│  │  └─ src/index.ts
+│  ├─ core-rs/
+│  │  ├─ Cargo.toml
+│  │  └─ src/main.rs
+│  └─ ai-agent/
+│     ├─ pyproject.toml
+│     └─ agent/main.py
+├─ web/
+│  ├─ package.json
+│  └─ src/
+│     └─ App.tsx
+├─ scripts/
+│  ├─ deploy.sh
+│  └─ build-all.sh
+├─ tests/
+│  ├─ unit/
+│  │  ├─ test_gateway.spec.ts
+│  │  └─ test_agent.py
+├─ .dockerignore
+├─ Dockerfile
+├─ Makefile
+├─ README.md
+├─ CONTRIBUTING.md
+├─ CHANGELOG.md
+└─ HISTORY.md
