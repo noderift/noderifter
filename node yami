@@ -1,0 +1,49 @@
+
+---
+
+### `.github/workflows/ci.yml` (GitHub Actions)
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18.x]
+        rust: [1.71.0]
+        python: [3.11]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install deps (frontend & gateway)
+        run: |
+          cd web && npm ci
+          cd ../services/gateway && npm ci
+      - name: Run tests (js)
+        run: |
+          cd services/gateway && npm test
+      - name: Run python tests
+        run: |
+          pip install -r services/ai-agent/requirements.txt
+          pytest -q tests/unit/test_agent.py
+      - name: Cargo build core
+        run: |
+          cd services/core-rs && cargo build --release
