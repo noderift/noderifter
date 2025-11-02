@@ -1,0 +1,20 @@
+.PHONY: bootstrap build run-dev test
+
+bootstrap:
+	npm --prefix web ci
+	npm --prefix services/gateway ci
+	cd services/core-rs && cargo fetch
+	pip install -r services/ai-agent/requirements.txt || true
+
+build:
+	cargo build --manifest-path services/core-rs/Cargo.toml --release
+	npm --prefix web run build
+	npm --prefix services/gateway run build
+
+run-dev:
+	# starts dev services in separate terminals (tmux recommended)
+	docker-compose -f ./docker-compose.dev.yml up --build
+
+test:
+	npm --prefix services/gateway test
+	pytest -q tests/unit/test_agent.py
